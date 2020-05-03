@@ -110,4 +110,4 @@ venv.bak/
 .vscode/
 
 # secret_settings
-secret_settings.py
+core/conf/secret_settings.py

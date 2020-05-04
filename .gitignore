@@ -111,3 +111,6 @@ venv.bak/
 
 # secret_settings
 core/conf/secret_settings.py
+
+# uploads
+uploads/

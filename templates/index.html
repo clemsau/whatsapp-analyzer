@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
+
 {% block main %}
-    <button class="button-primary">Hello world</button>
+    <form method="post" action="/analysis" enctype="multipart/form-data">
+     <div>
+       <label for="file">Choose file to upload</label>
+       <input type="file" id="file" name="file" multiple>
+     </div>
+     <div>
+       <button class="button-primary">Submit</button>
+     </div>
+    </form>
 {% endblock %}

@@ -7,3 +7,4 @@ BASE_FOLDER = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__
 
 TEMPLATE_FOLDER = os.path.join(BASE_FOLDER, 'templates/')
 STATIC_FOLDER = os.path.join(BASE_FOLDER, 'static/')
+UPLOAD_FOLDER = os.path.join(BASE_FOLDER, 'uploads/')

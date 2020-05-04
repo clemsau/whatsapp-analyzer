@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Analysis{% endblock %}
+{% block additional_head_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+{% endblock %}
+
+{% block main %}
+<p>Hello analysis !</p>
+{% if context.nb_rows %}
+    <p>Nb rows: {{ context.nb_rows }}</p>
+{% endif %}
+{% endblock %}

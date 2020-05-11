@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Analysis{% endblock %}
+{% block additional_head_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+{% endblock %}
+
+{% block main %}
+<p>Hello analysis !</p>
+{% if context.analysis %}
+    <p>analysis: {{ context.analysis.total_message_count }}</p>
+    <p>analysis: {{ context.analysis.total_word_count }}</p>
+    <canvas id="bar-chart" width="800" height="450"></canvas>
+{% endif %}
+{% endblock %}
+
+{% block additional_js %}
+<script>
+    var totalMessagePerUser_User = {{ context.analysis.total_message_per_user.users | safe }};
+    var totalMessagePerUser_MessageCount = {{ context.analysis.total_message_per_user.message_count }};
+
+    new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: totalMessagePerUser_User,
+      datasets: [
+        {
+          label: "Message count",
+          minBarLength: 200,
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+          data: totalMessagePerUser_MessageCount,
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Number of messages by each user'
+      },
+      scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        min: 0,
+                    }
+                  }]
+               }
+    }
+});
+</script>
+{% endblock %}

@@ -99,13 +99,19 @@ def parse_file(file_path):
 
 def dataframe_insight(dataframe):
     return {'total_message_count': len(dataframe),
-            'total_word_count': total_word_count(dataframe)}
+            'total_word_count': total_word_count(dataframe),
+            'total_message_per_user': messages_by_user(dataframe)}
 
 
 def total_word_count(dataframe):
     return dataframe['Message'].str.lower().str.split().apply(lambda l: len(l)).sum()
 
 
-def conversation_age(dataframe):
-    df = dataframe['Date'].apply(lambda d: datetime.datetime())
-    return
+def messages_by_user(dataframe):
+    users, message_count = [], []
+    df = dataframe.groupby('Author').count().reset_index()
+    for index, row in df.iterrows():
+        users.append(row['Author'])
+        message_count.append(row['Message'])
+    return {"users": users,
+            "message_count": message_count}

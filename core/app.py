@@ -28,6 +28,6 @@ def analysis():
         os.remove(file_path)    # remove file
         context = {'analysis': dataframe_insight(df)}
         print(context['analysis']['total_word_count'])
-        return render_template('analyse.html', context=context)
+        return render_template('analysis.html', context=context)
     else:
         return 'Issue'

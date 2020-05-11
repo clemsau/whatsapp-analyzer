@@ -6,7 +6,33 @@
 
 {% block main %}
 <p>Hello analysis !</p>
-{% if context.nb_rows %}
-    <p>Nb rows: {{ context.nb_rows }}</p>
+{% if context.analysis %}
+    <p>analysis: {{ context.analysis.total_message_count }}</p>
+    <p>analysis: {{ context.analysis.total_word_count }}</p>
+    <canvas id="line-chart" width="800" height="450"></canvas>
 {% endif %}
+{% endblock %}
+
+{% block additional_js %}
+<script>
+    new Chart(document.getElementById("line-chart"), {
+  type: 'line',
+  data: {
+    labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+    datasets: [{
+        data: [86,114,106,106,107,111,133,221,783,2478],
+        label: "Overall messages",
+        borderColor: "blue",
+        fill: false
+      },
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Number of message per day'
+    }
+  }
+});
+</script>
 {% endblock %}

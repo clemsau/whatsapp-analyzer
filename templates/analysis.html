@@ -8,9 +8,13 @@
 {% if context.analysis %}
     <div class="container">
         <div class="row justify-content-center" id="conversation-users"></div>
-        <div class="row justify-content-center">
-            <p>Total message count: {{ context.analysis.total_message_count }}</p>
-            <p>Total words count: {{ context.analysis.total_word_count }}</p>
+        <div class="row justify-content-center m-vertical-margin">
+            <div class="col-sm-6 text-center">
+                <h5>Total messages count: {{ context.analysis.total_message_count }}</h5>
+            </div>
+            <div class="col-sm-6 text-center">
+                <h5>Total words count: {{ context.analysis.total_word_count }}</h5>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-6"><canvas id="total-message-per-user" width="800" height="650"></canvas></div>
@@ -21,9 +25,8 @@
             <div class="col-lg-6"><canvas id="total-message-per-day" width="800" height="650"></canvas></div>
         </div>
     </div>
-<span class="text-center">Something went wrong, please <a href="{{ url_for('index') }}">try again</a></span>
 {% else %}
-    <span class="text-center">Something went wrong, please <a href="{{ url_for('index') }}">try again</a></span>
+    <span class="text-center">Something went wrong 😢, please <a href="{{ url_for('index') }}">try again</a></span>
 {% endif %}
 {% endblock %}
 
@@ -46,7 +49,7 @@
 
     for(var i = 0; i < userNumber; i++) {
         userElement = document.createElement('div');
-        userElement.innerHTML = users[i] + "&nbsp;&nbsp;";
+        userElement.innerHTML = users[i];
         userElement.style.color = colorSet[i];
         userElement.classList.add('col-sm-3');
         userElement.classList.add('card');
@@ -60,7 +63,7 @@
       labels: totalMessagePerUser_User,
       datasets: [
         {
-          label: "Message count",
+          label: "Messages count",
           backgroundColor: colorSet,
           data: totalMessagePerUser_MessageCount,
         }
@@ -90,7 +93,7 @@
       labels: averageMessageLengthPerUser_User,
       datasets: [
         {
-          label: "Average message length",
+          label: "Average messages length",
           backgroundColor: colorSet,
           data: averageMessageLengthPerUser_MessageLength,
         }
@@ -100,7 +103,7 @@
       legend: { display: false },
       title: {
         display: true,
-        text: 'Average length of message for each user (number of words)'
+        text: 'Average length of the messages for each user (number of words)'
       },
       scales: {
                 yAxes: [{
@@ -119,7 +122,7 @@
     data: {
       labels: mostCommonEmojis_Emoji,
       datasets: [{
-        label: "Number of instance",
+        label: "Number of instances",
         backgroundColor: mostCommonEmojis_Colors,
         data: mostCommonEmojis_Counts,
       }]
@@ -140,7 +143,7 @@
         labels: totalMessagePerDay_Days,
         datasets: [{
             data: totalMessagePerDay_MessageCount,
-            label: "Number of message per day",
+            label: "Number of messages per day (Inactive days omitted)",
             borderColor: "blue",
             fill: false
           },
@@ -149,7 +152,7 @@
       options: {
         title: {
           display: false,
-          text: 'Number of message per day'
+          text: 'Number of messages per day'
         }
       }
     });

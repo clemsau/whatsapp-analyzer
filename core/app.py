@@ -38,7 +38,7 @@ def analysis():
         logger.info("File [{0}] - Saved, took {1}s".format(file_name, (time_after_saving - time_before_saving)))
         with open(file_path, 'r', encoding='utf-8') as f:  # Log infos about the file
             try:
-                logger.info("File [{0}] - line format: {1}".format(file_name, f.readline()))
+                logger.info("File [{0}] - line format: {1}".format(file_name, f.readline(0)))
             except:
                 logger.error("File [{0}] - Something went wrong, Couldn't access first line".format(file_name))
 
@@ -59,3 +59,14 @@ def analysis():
             return 'Something went wrong with the file'
     else:
         return 'Wrong method'
+
+
+@app.route('/showcase', methods=['GET'])
+def showcase():
+    try:
+        df = parse_file('static/samples/sample_chat.txt')  # analysis
+        context = {'analysis': dataframe_insight(df)}
+        return render_template('analysis.html', context=context)
+    except Exception as e:
+        logger.error('Showcase file - Issue encountered: {0}'.format(str(e)))
+        return 'Something went wrong with the file'

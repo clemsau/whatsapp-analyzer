@@ -2,13 +2,48 @@
 {% block title %}Index{% endblock %}
 
 {% block main %}
-    <form method="post" action="/analysis" enctype="multipart/form-data">
-     <div>
-       <label for="file">Choose file to upload</label>
-       <input type="file" id="file" name="file" multiple>
-     </div>
-     <div>
-       <button class="button-primary">Submit</button>
-     </div>
-    </form>
+    <div class="container xl-margin-bottom">
+        <div class="row">
+            <div class="col-sm-8">
+                <span class="align-middle">With whatsapp analyser, you can see interesting statistics about your whatsapp conversation and group
+                    chats, all you have to do is extract the text file of the conversation (as shown in the instructions
+                    bellow) and upload it here.</span>
+            </div>
+            <div class="col-sm-2 showcase-btn-container">
+                <div class="row">
+                    <div class="mx-auto s-margin-top">
+                        <a href="{{ url_for('showcase') }}"><button type="button" class="btn">Showcase</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div style="overflow-y: scroll; height:200px;">
+                    <p>Instructions</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <h5 class="text-center">Analyze your conversation:</h5>
+                <form method="post" action="/analysis" enctype="multipart/form-data">
+                    <div class="container">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="file" name="file" accept=".txt">
+                          <label class="custom-file-label" for="file" id="file-label">Select conversation file</label>
+                          <div class="row">
+                              <div class="mx-auto s-margin-top">
+                                  <button class="btn" id="display-charts-button">Display charts</button>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
+
+{% block additional_js %}<script src="{{ url_for('static', filename='js/index.js') }}"></script>{% endblock %}

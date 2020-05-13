@@ -6,7 +6,45 @@
 
 /* Classes */
 
+.btn {
+    background-color: #C96BE3;
+    color: white;
+}
 
+.btn:hover {
+    background-color: #DA8FEF;
+    color: white;
+}
+
+.main-content {
+    padding-top: 3rem;
+}
+
+.showcase-btn-container {
+    padding: 1rem;
+}
+
+.m-margin {
+    margin: 3rem;
+}
+
+.m-vertical-margin {
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+}
+
+.m-margin-bottom {
+    margin-bottom: 3rem;
+}
+
+.s-margin-top {
+    margin-top: 1.5rem;
+}
+
+
+.xl-margin-bottom {
+    margin-bottom: 8rem;
+}
 
 
 
@@ -14,4 +52,9 @@
 
 #conversation-users {
     text-align: center;
+}
+
+#navbar-logo {
+    height: 3rem;
+    width: auto;
 }

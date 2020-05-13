@@ -10,7 +10,18 @@
 </head>
 <body>
     <main>
-        {% block main %}{% endblock %}
+        <nav>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <a href="{{ url_for('index') }}">
+                        <img id="navbar-logo" src="{{ url_for('static', filename='img/whatsapp_analyzer_logo.png') }}" alt="Whatsapp Analyzer">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="main-content">
+            {% block main %}{% endblock %}
+        </div>
     </main>
     {% block additional_js %}{% endblock %}
 </body>

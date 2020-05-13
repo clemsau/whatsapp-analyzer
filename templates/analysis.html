@@ -5,28 +5,63 @@
 {% endblock %}
 
 {% block main %}
-<p>Hello analysis !</p>
 {% if context.analysis %}
-    <p>analysis: {{ context.analysis.total_message_count }}</p>
-    <p>analysis: {{ context.analysis.total_word_count }}</p>
-    <canvas id="bar-chart" width="800" height="450"></canvas>
+    <div class="container">
+        <div class="row justify-content-center" id="conversation-users"></div>
+        <div class="row justify-content-center">
+            <p>Total message count: {{ context.analysis.total_message_count }}</p>
+            <p>Total words count: {{ context.analysis.total_word_count }}</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-6"><canvas id="total-message-per-user" width="800" height="650"></canvas></div>
+            <div class="col-lg-6"><canvas id="average-message-length-per-user" width="800" height="650"></canvas></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6"><canvas id="most-common-emojis" width="800" height="650"></canvas></div>
+            <div class="col-lg-6"><canvas id="total-message-per-day" width="800" height="650"></canvas></div>
+        </div>
+    </div>
+<span class="text-center">Something went wrong, please <a href="{{ url_for('index') }}">try again</a></span>
+{% else %}
+    <span class="text-center">Something went wrong, please <a href="{{ url_for('index') }}">try again</a></span>
 {% endif %}
 {% endblock %}
 
 {% block additional_js %}
 <script>
+    var users = {{ context.analysis.users | safe }};
+    var userNumber = {{ context.analysis.user_number | safe }};
+    var colorSet = {{ context.analysis.users_colors | safe }};
     var totalMessagePerUser_User = {{ context.analysis.total_message_per_user.users | safe }};
     var totalMessagePerUser_MessageCount = {{ context.analysis.total_message_per_user.message_count }};
+    var averageMessageLengthPerUser_User = {{ context.analysis.average_message_length_per_user.users | safe }};
+    var averageMessageLengthPerUser_MessageLength = {{ context.analysis.average_message_length_per_user.message_length }};
+    var mostCommonEmojis_Emoji = {{ context.analysis.most_common_emojis.top_emojis | safe }};
+    var mostCommonEmojis_Counts = {{ context.analysis.most_common_emojis.top_counts | safe }};
+    var mostCommonEmojis_Colors = {{ context.analysis.most_common_emojis.colors | safe }};
+    var totalMessagePerDay_Days = {{ context.analysis.total_message_per_day.days | safe }};
+    var totalMessagePerDay_MessageCount = {{ context.analysis.total_message_per_day.message_count }};
 
-    new Chart(document.getElementById("bar-chart"), {
+    var usersDisplay = document.getElementById("conversation-users");
+
+    for(var i = 0; i < userNumber; i++) {
+        userElement = document.createElement('div');
+        userElement.innerHTML = users[i] + "&nbsp;&nbsp;";
+        userElement.style.color = colorSet[i];
+        userElement.classList.add('col-sm-3');
+        userElement.classList.add('card');
+        usersDisplay.innerHTML += userElement.outerHTML;
+    }
+
+    // Total message per user bar chart
+    new Chart(document.getElementById("total-message-per-user"), {
     type: 'bar',
     data: {
       labels: totalMessagePerUser_User,
       datasets: [
         {
           label: "Message count",
-          minBarLength: 200,
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+          backgroundColor: colorSet,
           data: totalMessagePerUser_MessageCount,
         }
       ]
@@ -35,7 +70,7 @@
       legend: { display: false },
       title: {
         display: true,
-        text: 'Number of messages by each user'
+        text: 'Total number of messages by each user'
       },
       scales: {
                 yAxes: [{
@@ -46,6 +81,79 @@
                   }]
                }
     }
-});
+    });
+
+    // Total message per user bar chart
+    new Chart(document.getElementById("average-message-length-per-user"), {
+    type: 'bar',
+    data: {
+      labels: averageMessageLengthPerUser_User,
+      datasets: [
+        {
+          label: "Average message length",
+          backgroundColor: colorSet,
+          data: averageMessageLengthPerUser_MessageLength,
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Average length of message for each user (number of words)'
+      },
+      scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        min: 0,
+                    }
+                  }]
+               }
+    }
+    });
+
+    // Most frequent emoji pie chart
+    new Chart(document.getElementById("most-common-emojis"), {
+    type: 'pie',
+    data: {
+      labels: mostCommonEmojis_Emoji,
+      datasets: [{
+        label: "Number of instance",
+        backgroundColor: mostCommonEmojis_Colors,
+        data: mostCommonEmojis_Counts,
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Most frequent emojis'
+        }
+    }
+    });
+
+
+    // Total message per day line chart
+    new Chart(document.getElementById("total-message-per-day"), {
+    type: 'line',
+    data: {
+        labels: totalMessagePerDay_Days,
+        datasets: [{
+            data: totalMessagePerDay_MessageCount,
+            label: "Number of message per day",
+            borderColor: "blue",
+            fill: false
+          },
+        ]
+      },
+      options: {
+        title: {
+          display: false,
+          text: 'Number of message per day'
+        }
+      }
+    });
+
+
 </script>
 {% endblock %}

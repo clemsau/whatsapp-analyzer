@@ -1,8 +1,11 @@
 import os
 import pandas as pd
 import re
+import random
 import emoji
+import collections
 import datetime
+
 
 from .conf.settings import UPLOAD_FOLDER
 
@@ -94,24 +97,103 @@ def parse_file(file_path):
             else:
                 messageBuffer.append(line)  # If a line doesn't start with a Date Time pattern,
                 # then it is part of a multi-line message. So, just append to buffer
+
     return pd.DataFrame(parsedData[1:], columns=['Date', 'Time', 'Author', 'Message'])
 
 
 def dataframe_insight(dataframe):
-    return {'total_message_count': len(dataframe),
+    return {'users': conversation_users(dataframe),
+            'user_number': user_number(dataframe),
+            'users_colors': color_set(user_number(dataframe)),
+            'total_message_count': len(dataframe),
             'total_word_count': total_word_count(dataframe),
-            'total_message_per_user': messages_by_user(dataframe)}
+            'most_common_emojis': most_common_emojis(dataframe),
+            'total_message_per_user': messages_by_user(dataframe),
+            'total_message_per_day': number_of_message_per_day(dataframe),
+            'average_message_length_per_user': average_message_length_per_user(dataframe),
+            }
 
 
-def total_word_count(dataframe):
-    return dataframe['Message'].str.lower().str.split().apply(lambda l: len(l)).sum()
+def conversation_users(df):
+    users = []
+    df = df.groupby('Author').count().reset_index()
+    for index, row in df.iterrows():
+        users.append(row['Author'])
+    return users
 
 
-def messages_by_user(dataframe):
+def user_number(df):
+    df = df.groupby('Author').count()
+    return len(df)
+
+
+def color_set(color_number):
+    r = lambda: random.randint(0, 255)
+    colors = ['#%02X%02X%02X' % (r(),r(),r()) for i in range(color_number)]
+    return colors
+
+
+def total_word_count(df):
+    total_words = df['Message'].str.lower().str.split().apply(lambda l: len(l)).sum()
+    return total_words
+
+
+def messages_by_user(df):
     users, message_count = [], []
-    df = dataframe.groupby('Author').count().reset_index()
+    df = df.groupby('Author').count().reset_index()
     for index, row in df.iterrows():
         users.append(row['Author'])
         message_count.append(row['Message'])
     return {"users": users,
             "message_count": message_count}
+
+
+def average_message_length_per_user(df):
+    users, average_message_length = [], []
+    _df = df.copy()
+    _df['Message'] = _df['Message'].apply(lambda s: len(s.split()))
+    _df = _df.groupby('Author').mean().reset_index()
+    for index, row in _df.iterrows():
+        users.append(row['Author'])
+        average_message_length.append(row['Message'])
+    return {"users": users,
+            "message_length": average_message_length}
+
+
+def get_corpus(df):
+    corpus = ''
+    for index, row in df.iterrows():
+        corpus += row['Message']
+    return corpus
+
+
+def extract_emojis(corpus):
+    return ''.join(c for c in corpus if c in emoji.UNICODE_EMOJI)
+
+
+def most_common_emojis(df):
+    number_of_instances = 10
+    corpus = get_corpus(df)
+    all_emojis = extract_emojis(corpus)
+    most_common = collections.Counter(all_emojis).most_common()
+    top_emojis, top_counts = [], []
+    for i in range(number_of_instances):
+        try:
+            top_emojis.append(most_common[i][0])
+            top_counts.append(most_common[i][1])
+        except IndexError:
+            pass
+    return {"top_emojis": top_emojis,
+            "top_counts": top_counts,
+            "colors": color_set(len(top_emojis))}
+
+
+def number_of_message_per_day(df):
+    days, message_count = [], []
+    df = df.groupby('Date').count().reset_index()
+    for index, row in df.iterrows():
+        days.append(row['Date'])
+        message_count.append(row['Message'])
+    return {"days": days,
+            "message_count": message_count}
+

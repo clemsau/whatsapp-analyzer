@@ -2,8 +2,6 @@
 
 
 
-
-
 /* Classes */
 
 .btn {
@@ -16,12 +14,23 @@
     color: white;
 }
 
+.unselected-tab {
+    background-color: white;
+    color: #C96BE3;
+    border-color: #C96BE3;
+}
+
 .main-content {
     padding-top: 3rem;
 }
 
 .showcase-btn-container {
     padding: 1rem;
+}
+
+.l-vertical-padding {
+    padding-top: 5.5rem;
+    padding-bottom: 5.5rem;
 }
 
 .m-margin {
@@ -46,6 +55,10 @@
     margin-bottom: 8rem;
 }
 
+.small-text {
+    font-size: smaller;
+}
+
 
 
 /* Ids */
@@ -57,4 +70,9 @@
 #navbar-logo {
     height: 3rem;
     width: auto;
+}
+
+#processing-spinner {
+    visibility: hidden;
+    margin: 0.2rem;
 }

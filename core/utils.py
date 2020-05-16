@@ -107,7 +107,7 @@ def dataframe_insight(dataframe):
             'users_colors': color_set(user_number(dataframe)),
             'total_message_count': len(dataframe),
             'total_word_count': total_word_count(dataframe),
-            'most_common_emojis': most_common_emojis(dataframe),
+            'most_common_emojis': common_emoji(dataframe),
             'total_message_per_user': messages_by_user(dataframe),
             'total_message_per_day': number_of_message_per_day(dataframe),
             'average_message_length_per_user': average_message_length_per_user(dataframe),
@@ -160,29 +160,15 @@ def average_message_length_per_user(df):
             "message_length": average_message_length}
 
 
-def get_corpus(df):
-    corpus = ''
-    for index, row in df.iterrows():
-        corpus += row['Message']
-    return corpus
-
-
-def extract_emojis(corpus):
-    return ''.join(c for c in corpus if c in emoji.UNICODE_EMOJI)
-
-
-def most_common_emojis(df):
-    number_of_instances = 10
-    corpus = get_corpus(df)
-    all_emojis = extract_emojis(corpus)
-    most_common = collections.Counter(all_emojis).most_common()
+def common_emoji(df):
+    word_counts_df = df.Message.str.split(expand=True).stack().value_counts()
     top_emojis, top_counts = [], []
-    for i in range(number_of_instances):
-        try:
-            top_emojis.append(most_common[i][0])
-            top_counts.append(most_common[i][1])
-        except IndexError:
-            pass
+    for index, row in word_counts_df.iteritems():
+        if index in emoji.EMOJI_UNICODE.values():
+            top_emojis.append(index)
+            top_counts.append(row)
+        if len(top_emojis) > 4:
+            break
     return {"top_emojis": top_emojis,
             "top_counts": top_counts,
             "colors": color_set(len(top_emojis))}

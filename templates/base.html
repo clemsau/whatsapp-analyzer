@@ -19,9 +19,21 @@
                 </div>
             </div>
         </nav>
-        <div class="main-content">
+        <div class="main-content l-vertical-padding">
             {% block main %}{% endblock %}
         </div>
+        <!-- Footer -->
+        <footer class="page-footer font-small special-color-dark pt-4">
+          <div class="footer-copyright text-center py-3">© 2020 Copyright
+            <a href="https://whatsappanalyzer.com/">whatsappanalyzer</a>
+              &emsp;&emsp;Made with ❤ by Clément
+          </div>
+          <div class="container text-center small-text">
+              WhatsApp is a registered trademark of WhatsApp Inc.
+              <br>This site and service are not related in any way to WhatsApp Inc.
+          </div>
+        </footer>
+        <!-- Footer -->
     </main>
     {% block additional_js %}{% endblock %}
 </body>

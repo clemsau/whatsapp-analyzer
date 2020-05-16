@@ -7,9 +7,10 @@
             <div class="col-sm-8">
                 <span class="align-middle">With whatsapp analyzer, you can see interesting statistics about your whatsapp conversation and group
                     chats, all you have to do is extract the text file of the conversation (as shown in the instructions
-                    bellow) and upload it here.</span>
+                    bellow) and upload it here. (We only accept conversation files of less than 10 Mb)
+                    <br>Click the showcase button on the right to see an example!</span>
             </div>
-            <div class="col-sm-2 showcase-btn-container">
+            <div class="col-sm-4 showcase-btn-container">
                 <div class="row">
                     <div class="mx-auto s-margin-top">
                         <a href="{{ url_for('showcase') }}"><button type="button" class="btn">Showcase</button></a>
@@ -21,12 +22,44 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <div style="overflow-y: scroll; height:200px;">
-                    <p>Instructions</p>
+                <ul class="nav mb-3" id="pills-tab" role="tablist">
+                  <li class="">
+                    <button class="btn" id="pills-Android-tab" role="tab">Android</button>
+                    <button class="btn unselected-tab" id="pills-IOS-tab" role="tab">IOS</button>
+                  </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade show active" id="pills-android" role="tabpanel" aria-labelledby="pills-home-tab">
+                      <div style="overflow-y: scroll; height:200px;">
+                          <p>Instructions to extract the conversation file:</p>
+                          <ol>
+                              <li>In the Whatsapp app, go to the desired group</li>
+                              <li>Press the context menu (three dots) in the top right corner</li>
+                              <li>Select the "More" Item.</li>
+                              <li>Choose "Export Chat".</li>
+                              <li>Select "Without Media".</li>
+                              <li>Now that your chat is extracted, you can either email it to yourself, or use a cloud storage in order to download it.</li>
+                              <li>Download the file on your computer and upload it on <a href="{{ url_for('index') }}">whatsappanalyzer</a>.</li>
+                          </ol>
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-IOS" role="tabpanel" aria-labelledby="pills-profile-tab">
+                      <div style="overflow-y: scroll; height:200px;">
+                          <p>Instructions to extract the conversation file:</p>
+                          <ol>
+                              <li>In the Whatsapp app, go to the desired group.</li>
+                              <li>Press the group name in the top navigation bar.</li>
+                              <li>Scroll down and select "Export chat".</li>
+                              <li>Select "Without Media".</li>
+                              <li>Now that your chat is extracted, you can either email it to yourself, or use a cloud storage in order to download it.</li>
+                              <li>Download the file on your computer and upload it on <a href="{{ url_for('index') }}">whatsappanalyzer</a>.</li>
+                          </ol>
+                      </div>
+                  </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <h5 class="text-center">Analyze your conversation:</h5>
+            <div class="col-sm-6">
+                <h5 class="text-center m-margin-bottom">Analyze your conversation:</h5>
                 <form method="post" action="/analysis" enctype="multipart/form-data">
                     <div class="container">
                         <div class="custom-file">
@@ -35,6 +68,9 @@
                           <div class="row">
                               <div class="mx-auto s-margin-top">
                                   <button class="btn" id="display-charts-button">Display charts</button>
+                                  <div class="spinner-border" id="processing-spinner" role="status">
+                                      <span class="sr-only">Loading...</span>
+                                  </div>
                               </div>
                           </div>
                         </div>

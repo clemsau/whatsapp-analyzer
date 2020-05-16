@@ -2,7 +2,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var uploadField = document.getElementById("file");
     var uploadFieldLabel = document.getElementById("file-label");
-    var displayChartsButton = document.getElementById("display-charts-button")
+    var displayChartsButton = document.getElementById("display-charts-button");
+    var processingSpinner = document.getElementById("processing-spinner");
+
+    var pillsAndroidTab = document.getElementById("pills-Android-tab");
+    var pillsIOSTab = document.getElementById("pills-IOS-tab");
+    var pillsAndroid = document.getElementById("pills-android");
+    var pillsIOS = document.getElementById("pills-IOS");
 
     if (uploadField.files[0]) {
         uploadFieldLabel.innerHTML = uploadField.files[0].name;
@@ -21,5 +27,27 @@ document.addEventListener("DOMContentLoaded", function() {
             uploadFieldLabel.innerHTML = this.files[0].name;
             displayChartsButton.disabled = false;
         }
+    };
+
+    displayChartsButton.onclick = function () {
+        processingSpinner.style.visibility = "visible";
+    };
+
+    pillsAndroidTab.onclick = function () {
+        pillsAndroidTab.classList.remove("unselected-tab");
+        pillsIOSTab.classList.add("unselected-tab");
+        pillsIOS.classList.remove("show");
+        pillsIOS.classList.remove("active");
+        pillsAndroid.classList.add("show");
+        pillsAndroid.classList.add("active");
+    };
+
+    pillsIOSTab.onclick = function () {
+        pillsIOSTab.classList.remove("unselected-tab");
+        pillsAndroidTab.classList.add("unselected-tab");
+        pillsAndroid.classList.remove("active");
+        pillsAndroid.classList.remove("show");
+        pillsIOS.classList.add("active");
+        pillsIOS.classList.add("show");
     };
 });

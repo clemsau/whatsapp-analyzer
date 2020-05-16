@@ -107,7 +107,7 @@ def dataframe_insight(dataframe):
             'users_colors': color_set(user_number(dataframe)),
             'total_message_count': len(dataframe),
             'total_word_count': total_word_count(dataframe),
-            'most_common_emojis': common_emoji(dataframe),
+            'most_common_emojis': most_common_emojis(dataframe),
             'total_message_per_user': messages_by_user(dataframe),
             'total_message_per_day': number_of_message_per_day(dataframe),
             'average_message_length_per_user': average_message_length_per_user(dataframe),
@@ -160,7 +160,7 @@ def average_message_length_per_user(df):
             "message_length": average_message_length}
 
 
-def common_emoji(df):
+def most_common_emojis(df):
     word_counts_df = df.Message.str.split(expand=True).stack().value_counts()
     top_emojis, top_counts = [], []
     for index, row in word_counts_df.iteritems():

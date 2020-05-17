@@ -5,6 +5,7 @@
     <title>Whatsapp Analyzer - {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     {% block additional_css%}{% endblock %}
     {% block additional_head_js %}{% endblock %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -35,7 +36,7 @@
         <footer class="page-footer font-small special-color-dark pt-4">
           <div class="footer-copyright text-center py-3">© 2020 Copyright
             <a href="https://whatsappanalyzer.com/">whatsappanalyzer</a>
-              &emsp;&emsp;Made with ❤ by Clément
+              &emsp;&emsp;Made with ❤ by <a href="https://github.com/ClemSau">Clément</a>
           </div>
           <div class="container text-center small-text">
               WhatsApp is a registered trademark of WhatsApp Inc.

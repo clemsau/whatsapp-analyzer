@@ -10,6 +10,16 @@ document.addEventListener("DOMContentLoaded", function() {
     var pillsAndroid = document.getElementById("pills-android");
     var pillsIOS = document.getElementById("pills-IOS");
 
+    var infoNotyf  = new Notyf({
+        types: [
+            {
+              type: 'info',
+              background: '#C96BE3',
+              icon: false
+            }
+          ]
+        });
+
     if (uploadField.files[0]) {
         uploadFieldLabel.innerHTML = uploadField.files[0].name;
     } else {
@@ -31,6 +41,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     displayChartsButton.onclick = function () {
         processingSpinner.style.visibility = "visible";
+        if (uploadField.files[0].size > 1048576*3) {
+            infoNotyf.open({
+                type: 'info',
+                message: 'Your data is processing. <br> The size of your file is above 3Mb so the processing might take up to 10 seconds',
+                duration: '8000'
+            });
+        } else {
+            infoNotyf.open({
+                type: 'info',
+                message: 'Your data is processing.',
+                duration: '3000'
+            });
+        }
     };
 
     pillsAndroidTab.onclick = function () {

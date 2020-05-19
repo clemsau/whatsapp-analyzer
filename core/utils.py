@@ -3,8 +3,6 @@ import pandas as pd
 import re
 import random
 import emoji
-import collections
-import datetime
 
 
 from .conf.settings import UPLOAD_FOLDER

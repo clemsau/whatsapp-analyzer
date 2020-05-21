@@ -70,3 +70,8 @@ def showcase():
     except Exception as e:
         logger.error('Showcase file - Issue encountered: {0}'.format(str(e)))
         return 'Something went wrong with the file'
+
+
+@app.route('/faq', methods=['GET'])
+def faq():
+    return render_template('faq.html')

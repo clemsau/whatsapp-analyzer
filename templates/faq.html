@@ -8,11 +8,28 @@
 {% block main %}
 
     <div class="container">
-        This is the FAQ
-    What is going on with my data
-    What data is stored
-    Are my data and statistics discoverable
-    What are the cookies collected
+        <h1 class="text-center m-vertical-margin">FAQ</h1>
+        <ul>
+            <li><h3>What is going on with my data ?</h3></li>
+        </ul>
+        <p class="m-margin-bottom">Your data is uploaded to the server where it is processed to extract the information necessary to display the analysis.
+            When the your chat file is loaded in the server, it is instantly deleted. No information is kept on the server.</p>
+        <ul>
+            <li><h3>What data is stored ?</h3></li>
+        </ul>
+        <p class="m-margin-bottom">The chat file is temporally stored in the server to be loaded in a pandas dataframe. When the data processing
+            begins it is deleted for the server. Hence, none of your data is stored.</p>
+        <ul>
+            <li><h3>Are my data and analysis discoverable ?</h3></li>
+        </ul>
+        <p class="m-margin-bottom">In order to keep your chat analysis, it is only available on the file upload. The analysis of your chat is not
+            stored and is unavailable as soon as you leave the page.</p>
+        <ul>
+            <li><h3>What are the cookies collected ?</h3></li>
+        </ul>
+        <p class="m-margin-bottom">The only cookies used on this website are the ones from the google analytics service.
+            See <a href="https://policies.google.com/technologies/cookies">more information</a>.</p>
+
     </div>
 
 {% endblock %}

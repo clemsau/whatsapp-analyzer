@@ -1,8 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Analysis{% endblock %}
-{% block additional_head_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+{% block page_meta %}
+<title>Whatsapp Analyzer - Analysis</title>
+<meta name="description" content="The analysis page of the uploaded chat file">
+<meta name="robots" content="none">
 {% endblock %}
+
+{% block additional_head_js %}<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>{% endblock %}
 
 {% block main %}
 {% if context.analysis %}

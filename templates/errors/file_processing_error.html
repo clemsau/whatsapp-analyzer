@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Whatsapp Analyzer - File processing error</title>
+<meta name="description" content="Whatsapp Analyzer 404 error page not found">
+<meta name="robots" content="none">
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <h1 class="text-center m-vertical-margin">Something went wrong when processing your file 🤕</h1>
+        <h2 class="text-center m-vertical-margin">Please try to upload the file from the <a href="{{ url_for('index') }}">home page</a> again.
+            <br>If the problem persist, please contact us.</h2>
+    </div>
+
+{% endblock %}

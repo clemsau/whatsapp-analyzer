@@ -1,9 +1,5 @@
-import os
-import uuid
-import logging
-import time
-
-from flask import Flask, render_template, request
+import os, uuid, logging, time
+from flask import Flask, render_template, request, send_from_directory
 
 import core.conf.settings as settings
 from .utils import parse_file, create_upload_folder, dataframe_insight
@@ -20,9 +16,30 @@ logging.basicConfig(filename='logger.log', level=logging.DEBUG)
 logger = logging.getLogger()
 
 
+@app.route('/robots.txt')
+@app.route('/sitemap.txt')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404
+
+
+@app.errorhandler(405)
+def page_not_found(e):
+    return render_template('errors/405.html'), 405
+
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
+
+@app.route('/faq', methods=['GET'])
+def faq():
+    return render_template('faq.html')
 
 
 @app.route('/analysis', methods=['POST'])
@@ -56,9 +73,9 @@ def analysis():
             return render_template('analysis.html', context=context)
         except Exception as e:
             logger.error('File [{0}] - Issue encountered: {1}'.format(file_name, str(e)))
-            return 'Something went wrong with the file'
+            return render_template('errors/file_processing_error.html')
     else:
-        return 'Wrong method'
+        return render_template('errors/file_processing_error.html')
 
 
 @app.route('/showcase', methods=['GET'])
@@ -70,8 +87,3 @@ def showcase():
     except Exception as e:
         logger.error('Showcase file - Issue encountered: {0}'.format(str(e)))
         return 'Something went wrong with the file'
-
-
-@app.route('/faq', methods=['GET'])
-def faq():
-    return render_template('faq.html')

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+<title>405 Method not allowed</title>
+<meta name="description" content="Whatsapp Analyzer 405 error method not allowed">
+<meta name="robots" content="none">
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <h1 class="text-center m-vertical-margin">405</h1>
+        <h2 class="text-center m-vertical-margin">To access an analysis you have to upload the file from the <a href="{{ url_for('index') }}">home page</a></h2>
+        <h3 class="text-center m-vertical-margin">For security purposes, <u>the analysis pages are only accessible on the file upload</u></h3>
+    </div>
+
+{% endblock %}

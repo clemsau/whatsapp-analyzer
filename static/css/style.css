@@ -59,7 +59,9 @@
     font-size: smaller;
 }
 
-
+.small-title {
+    font-size: 25px;
+}
 
 /* Ids */
 
@@ -76,3 +78,5 @@
     visibility: hidden;
     margin: 0.2rem;
 }
+
+#faq-title {margin-top: 0}

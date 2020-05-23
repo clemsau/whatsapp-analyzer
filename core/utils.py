@@ -3,6 +3,7 @@ import pandas as pd
 import re
 import random
 import emoji
+import datetime
 
 
 from .conf.settings import UPLOAD_FOLDER
@@ -11,6 +12,11 @@ from .conf.settings import UPLOAD_FOLDER
 def create_upload_folder():
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
+
+
+def daterange(date1, date2):
+    for n in range(int ((date2 - date1).days)+1):
+        yield date1 + datetime.timedelta(n)
 
 
 def starts_with_date(s):
@@ -56,6 +62,19 @@ def get_data_point(line):
     dateTime = splitLine[0]  # dateTime = '18/06/17, 22:47'
 
     date, time = dateTime.split(' ')  # date = '18/06/17'; time = '22:47'
+
+    day, month, year = date.split(r'/')
+
+    if len(day) < 2:
+        day = '0' + day
+
+    if len(month) < 2:
+        month = '0' + month
+
+    if len(year) < 4:
+        year = '20' + year
+
+    date = datetime.date(int(year), int(month), int(day))
 
     message = ' '.join(splitLine[1:])  # message = 'Loki: Why do you have 2 numbers, Banner?'
 
@@ -175,9 +194,17 @@ def most_common_emojis(df):
 def number_of_message_per_day(df):
     days, message_count = [], []
     df = df.groupby('Date').count().reset_index()
+    dates_range = list(daterange(df['Date'].min(), df['Date'].max()))
+    days_range, message_count_range = [], []
     for index, row in df.iterrows():
         days.append(row['Date'])
         message_count.append(row['Message'])
-    return {"days": days,
-            "message_count": message_count}
+    for day in dates_range:
+        days_range.append(day.strftime('%d/%m/%Y'))
+        if day in days:
+            message_count_range.append(message_count[days.index(day)])
+        else:
+            message_count_range.append(0)
+    return {"days": days_range,
+            "message_count": message_count_range}
 

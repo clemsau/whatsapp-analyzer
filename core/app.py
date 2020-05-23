@@ -73,6 +73,8 @@ def analysis():
             return render_template('analysis.html', context=context)
         except Exception as e:
             logger.error('File [{0}] - Issue encountered: {1}'.format(file_name, str(e)))
+            logger.info("File [{0}] - Removing file".format(file_name))
+            os.remove(file_path)  # remove file
             return render_template('errors/file_processing_error.html')
     else:
         return render_template('errors/file_processing_error.html')

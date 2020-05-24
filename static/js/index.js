@@ -41,10 +41,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     displayChartsButton.onclick = function () {
         processingSpinner.style.visibility = "visible";
-        if (uploadField.files[0].size > 1048576*3) {
+        if (uploadField.files[0].size > 1048576*1) {
             infoNotyf.open({
                 type: 'info',
-                message: 'Your data is processing. <br> The size of your file is above 3Mb so the processing might take up to 10 seconds',
+                message: 'Your data is processing. <br> Your file is heavy, so the processing might take up to 20 seconds',
                 duration: '8000'
             });
         } else {

@@ -192,19 +192,13 @@ def most_common_emojis(df):
 
 
 def number_of_message_per_day(df):
-    days, message_count = [], []
     df = df.groupby('Date').count().reset_index()
     dates_range = list(daterange(df['Date'].min(), df['Date'].max()))
-    days_range, message_count_range = [], []
+    number_dates = len(dates_range)
+    message_count = [0]*number_dates
     for index, row in df.iterrows():
-        days.append(row['Date'])
-        message_count.append(row['Message'])
-    for day in dates_range:
-        days_range.append(day.strftime('%d/%m/%Y'))
-        if day in days:
-            message_count_range.append(message_count[days.index(day)])
-        else:
-            message_count_range.append(0)
-    return {"days": days_range,
-            "message_count": message_count_range}
+        message_count[dates_range.index(row['Date'])] = row['Message']
+    dates_range = list(map(lambda d: d.strftime('%d/%m/%Y'), dates_range))
+    return {"days": dates_range,
+            "message_count": message_count}
 

@@ -14,8 +14,8 @@ def create_upload_folder():
         os.makedirs(UPLOAD_FOLDER)
 
 
-def daterange(date1, date2):
-    for n in range(int ((date2 - date1).days)+1):
+def date_range(date1, date2):
+    for n in range(int((date2 - date1).days)+1):
         yield date1 + datetime.timedelta(n)
 
 
@@ -127,6 +127,7 @@ def dataframe_insight(dataframe):
             'most_common_emojis': most_common_emojis(dataframe),
             'total_message_per_user': messages_by_user(dataframe),
             'total_message_per_day': number_of_message_per_day(dataframe),
+            'conversation_age': compute_age(dataframe['Date'].min()),
             'average_message_length_per_user': average_message_length_per_user(dataframe),
             }
 
@@ -193,7 +194,7 @@ def most_common_emojis(df):
 
 def number_of_message_per_day(df):
     df = df.groupby('Date').count().reset_index()
-    dates_range = list(daterange(df['Date'].min(), df['Date'].max()))
+    dates_range = list(date_range(df['Date'].min(), df['Date'].max()))
     number_dates = len(dates_range)
     message_count = [0]*number_dates
     for index, row in df.iterrows():
@@ -202,3 +203,7 @@ def number_of_message_per_day(df):
     return {"days": dates_range,
             "message_count": message_count}
 
+
+def compute_age(start_date):
+    today = datetime.date.today()
+    return (today - start_date).days

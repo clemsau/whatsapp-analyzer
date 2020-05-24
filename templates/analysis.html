@@ -12,11 +12,14 @@
     <div class="container">
         <div class="row justify-content-center" id="conversation-users"></div>
         <div class="row justify-content-center m-vertical-margin">
-            <div class="col-sm-6 text-center">
+            <div class="col-sm-4 text-center">
                 <h5>Total messages count: {{ context.analysis.total_message_count }}</h5>
             </div>
-            <div class="col-sm-6 text-center">
+            <div class="col-sm-4 text-center">
                 <h5>Total words count: {{ context.analysis.total_word_count }}</h5>
+            </div>
+            <div class="col-sm-4 text-center">
+                <h5>The conversation is {{ context.analysis.conversation_age }} days old</h5>
             </div>
         </div>
         <div class="row">
@@ -35,6 +38,7 @@
 
 {% block additional_js %}
 <script>
+    var conversationAge = {{ context.analysis.conversation_age }};
     var users = {{ context.analysis.users | safe }};
     var userNumber = {{ context.analysis.user_number | safe }};
     var colorSet = {{ context.analysis.users_colors | safe }};

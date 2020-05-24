@@ -22,13 +22,16 @@
                 <h5>The conversation is {{ context.analysis.conversation_age }} days old</h5>
             </div>
         </div>
-        <div class="row">
+        <div class="row m-vertical-margin">
             <div class="col-lg-6"><canvas id="total-message-per-user" width="800" height="650"></canvas></div>
             <div class="col-lg-6"><canvas id="average-message-length-per-user" width="800" height="650"></canvas></div>
         </div>
-        <div class="row">
+        <div class="row m-vertical-margin">
             <div class="col-lg-6"><canvas id="most-common-emojis" width="800" height="650"></canvas></div>
-            <div class="col-lg-6"><canvas id="total-message-per-day" width="800" height="650"></canvas></div>
+            <div class="col-lg-6"><canvas id="week-days-message-count" width="800" height="650"></canvas></div>
+        </div>
+        <div class="row m-vertical-margin">
+            <div class="col-lg-12"><canvas id="total-message-per-day" width="1800" height="650"></canvas></div>
         </div>
     </div>
 {% else %}
@@ -51,6 +54,8 @@
     var mostCommonEmojis_Colors = {{ context.analysis.most_common_emojis.colors | safe }};
     var totalMessagePerDay_Days = {{ context.analysis.total_message_per_day.days | safe }};
     var totalMessagePerDay_MessageCount = {{ context.analysis.total_message_per_day.message_count }};
+    var WeekDaysMessageCount_Days = {{ context.analysis.week_days_message_count.week_days | safe}};
+    var WeekDaysMessageCount_Counts = {{ context.analysis.week_days_message_count.week_days_message_count }};
 
     var usersDisplay = document.getElementById("conversation-users");
 
@@ -89,11 +94,19 @@
                         min: 0,
                     }
                   }]
-               }
+      },
+        tooltips: {
+                enabled: true,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + " messages";
+                    }
+                }
+        },
     }
     });
 
-    // Total message per user bar chart
+    // Average message length per user bar chart
     new Chart(document.getElementById("average-message-length-per-user"), {
     type: 'bar',
     data: {
@@ -119,7 +132,15 @@
                         min: 0,
                     }
                   }]
-               }
+      },
+        tooltips: {
+                enabled: true,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toFixed(2) + " words per message";
+                    }
+                }
+        },
     }
     });
 
@@ -142,6 +163,44 @@
     }
     });
 
+    // Message count per week days area chart
+    new Chart(document.getElementById("week-days-message-count"), {
+    type: 'radar',
+    data: {
+      labels: WeekDaysMessageCount_Days,
+      datasets: [
+        {
+          label: "Total message count per week day",
+          fill: true,
+          backgroundColor: "rgba(255,99,132,0.2)",
+          borderColor: "rgba(255,99,132,1)",
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "rgba(255,99,132,1)",
+          data: WeekDaysMessageCount_Counts
+        },
+      ]
+      },
+      options: {
+        title: {
+          display: false,
+          text: 'Message count per week day'
+        },
+        tooltips: {
+                enabled: true,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + " messages";
+                    }
+                }
+        },
+        scale: {
+                ticks: {
+                    beginAtZero:true,
+                }
+        },
+      }
+    });
+
 
     // Total message per day line chart
     new Chart(document.getElementById("total-message-per-day"), {
@@ -151,7 +210,7 @@
         datasets: [{
             data: totalMessagePerDay_MessageCount,
             label: "Number of messages per day (Day / Month / Year)",
-            borderColor: "blue",
+            borderColor: "#5B7BD6",
             fill: false
           },
         ]
@@ -160,7 +219,23 @@
         title: {
           display: false,
           text: 'Number of messages per day'
-        }
+        },
+        tooltips: {
+                enabled: true,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + " messages";
+                    }
+                }
+        },
+        scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true,
+                      min: 0,
+                  }
+                }]
+        },
       }
     });
 

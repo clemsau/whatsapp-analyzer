@@ -129,6 +129,7 @@ def dataframe_insight(dataframe):
             'total_message_per_day': number_of_message_per_day(dataframe),
             'conversation_age': compute_age(dataframe['Date'].min()),
             'average_message_length_per_user': average_message_length_per_user(dataframe),
+            'week_days_message_count': messages_by_days_of_the_week(dataframe),
             }
 
 
@@ -207,3 +208,12 @@ def number_of_message_per_day(df):
 def compute_age(start_date):
     today = datetime.date.today()
     return (today - start_date).days
+
+
+def messages_by_days_of_the_week(df):
+    df = df['Date'].apply(lambda d: d.weekday()).reset_index().groupby('Date').count()
+    week_days, week_days_message_count = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], [0]*7
+    for index, row in df.iterrows():
+        week_days_message_count[index-1] = row[0]
+    return {'week_days': week_days,
+            'week_days_message_count': week_days_message_count}

@@ -27,7 +27,7 @@
             <div class="col-lg-6"><canvas id="average-message-length-per-user" width="800" height="650"></canvas></div>
         </div>
         <div class="row m-vertical-margin">
-            <div class="col-lg-6"><canvas id="most-common-emojis" width="800" height="650"></canvas></div>
+            <div class="col-lg-6"><canvas id="day-hours-message-count" width="800" height="650"></canvas></div>
             <div class="col-lg-6"><canvas id="week-days-message-count" width="800" height="650"></canvas></div>
         </div>
         <div class="row m-vertical-margin">
@@ -49,9 +49,6 @@
     var totalMessagePerUser_MessageCount = {{ context.analysis.total_message_per_user.message_count }};
     var averageMessageLengthPerUser_User = {{ context.analysis.average_message_length_per_user.users | safe }};
     var averageMessageLengthPerUser_MessageLength = {{ context.analysis.average_message_length_per_user.message_length }};
-    var mostCommonEmojis_Emoji = {{ context.analysis.most_common_emojis.top_emojis | safe }};
-    var mostCommonEmojis_Counts = {{ context.analysis.most_common_emojis.top_counts | safe }};
-    var mostCommonEmojis_Colors = {{ context.analysis.most_common_emojis.colors | safe }};
     var totalMessagePerDay_Days = {{ context.analysis.total_message_per_day.days | safe }};
     var totalMessagePerDay_MessageCount = {{ context.analysis.total_message_per_day.message_count }};
     var weekDaysMessageCount_Days = {{ context.analysis.week_days_message_count.week_days | safe}};
@@ -146,23 +143,42 @@
     }
     });
 
-    // Most frequent emoji pie chart
-    new Chart(document.getElementById("most-common-emojis"), {
-    type: 'pie',
+    // Message count per day hours area chart
+    new Chart(document.getElementById("day-hours-message-count"), {
+    type: 'radar',
     data: {
-      labels: mostCommonEmojis_Emoji,
-      datasets: [{
-        label: "Number of instances",
-        backgroundColor: mostCommonEmojis_Colors,
-        data: mostCommonEmojis_Counts,
-      }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Most frequent emojis'
-        }
-    }
+      labels: dayHoursMessageCount_Hours,
+      datasets: [
+        {
+          label: "Total message count per day hours",
+          fill: true,
+          backgroundColor: "rgba(33,114,255, 0.2)",
+          borderColor: "rgb(77,166,255)",
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "rgb(77,166,255)",
+          data: dayHoursMessageCount_Counts
+        },
+      ]
+      },
+      options: {
+        title: {
+          display: false,
+          text: 'Message count per hour of the day'
+        },
+        tooltips: {
+                enabled: true,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + " messages";
+                    }
+                }
+        },
+        scale: {
+                ticks: {
+                    beginAtZero:true,
+                }
+        },
+      }
     });
 
     // Message count per week days area chart

@@ -55,8 +55,8 @@ def analysis():
         logger.info("File [{0}] - Saved, took {1}s".format(file_name, (time_after_saving - time_before_saving)))
         with open(file_path, 'r', encoding='utf-8') as f:  # Log infos about the file
             try:
-                logger.info("File [{0}] - line format: {1}".format(file_name, f.readline(0)))
-            except:
+                logger.info("File [{0}] - line format: {1}".format(file_name, f.readline()))
+            except Exception as e:
                 logger.error("File [{0}] - Something went wrong, Couldn't access first line".format(file_name))
 
         try:

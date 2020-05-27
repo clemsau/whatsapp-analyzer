@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import re
 import random
-import emoji
 import datetime
 import time
 
@@ -129,7 +128,6 @@ def dataframe_insight(dataframe):
             'users_colors': color_set(user_number(dataframe)),
             'total_message_count': len(dataframe),
             'total_word_count': total_word_count(dataframe),
-            'most_common_emojis': most_common_emojis(dataframe),
             'total_message_per_user': messages_by_user(dataframe),
             'total_message_per_day': number_of_message_per_day(dataframe),
             'conversation_age': compute_age(dataframe['Date'].min()),
@@ -193,37 +191,6 @@ def average_message_length_per_user(df):
     print("- Average message length per user: {}".format(time.time() - time1))
     return {"users": users,
             "message_length": average_message_length}
-
-
-def most_common_emojis(df):
-    time1 = time.time()
-    word_counts_df = df.Message.str.split(expand=True).stack().value_counts()
-    top_emojis, top_counts = [], []
-    for index, row in word_counts_df.iteritems():
-        if index in emoji.EMOJI_UNICODE.values():
-            top_emojis.append(index)
-            top_counts.append(row)
-        if len(top_emojis) > 4:
-            break
-    print("- Most common emojis: {}".format(time.time() - time1))
-    return {"top_emojis": top_emojis,
-            "top_counts": top_counts,
-            "colors": color_set(len(top_emojis))}
-
-
-def count_emojis(s):
-    count = 0
-    for c in s:
-        if c in emoji.EMOJI_UNICODE:
-            count += 1
-    return count
-
-
-def count_the_emojis(df):
-    _df = df.copy()
-    _df['Message'] = _df['Message'].apply(lambda s: count_emojis(s))
-    return _df['Message_']
-
 
 
 def number_of_message_per_day(df):

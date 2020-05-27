@@ -54,8 +54,10 @@
     var mostCommonEmojis_Colors = {{ context.analysis.most_common_emojis.colors | safe }};
     var totalMessagePerDay_Days = {{ context.analysis.total_message_per_day.days | safe }};
     var totalMessagePerDay_MessageCount = {{ context.analysis.total_message_per_day.message_count }};
-    var WeekDaysMessageCount_Days = {{ context.analysis.week_days_message_count.week_days | safe}};
-    var WeekDaysMessageCount_Counts = {{ context.analysis.week_days_message_count.week_days_message_count }};
+    var weekDaysMessageCount_Days = {{ context.analysis.week_days_message_count.week_days | safe}};
+    var weekDaysMessageCount_Counts = {{ context.analysis.week_days_message_count.week_days_message_count }};
+    var dayHoursMessageCount_Hours = {{ context.analysis.day_hours_message_count.day_hours | safe}};
+    var dayHoursMessageCount_Counts = {{ context.analysis.day_hours_message_count.day_hours_message_count }};
 
     var usersDisplay = document.getElementById("conversation-users");
 
@@ -167,7 +169,7 @@
     new Chart(document.getElementById("week-days-message-count"), {
     type: 'radar',
     data: {
-      labels: WeekDaysMessageCount_Days,
+      labels: weekDaysMessageCount_Days,
       datasets: [
         {
           label: "Total message count per week day",
@@ -176,7 +178,7 @@
           borderColor: "rgba(255,99,132,1)",
           pointBorderColor: "#fff",
           pointBackgroundColor: "rgba(255,99,132,1)",
-          data: WeekDaysMessageCount_Counts
+          data: weekDaysMessageCount_Counts
         },
       ]
       },

@@ -62,7 +62,7 @@ def get_data_point(line):
 
     dateTime = splitLine[0]  # dateTime = '18/06/17, 22:47'
 
-    date, time = dateTime.split(' ')  # date = '18/06/17'; time = '22:47'
+    date, _time = dateTime.split(' ')  # date = '18/06/17'; time = '22:47'
 
     day, month, year = date.split(r'/')
 
@@ -77,6 +77,10 @@ def get_data_point(line):
 
     date = datetime.date(int(year), int(month), int(day))
 
+    hour, minutes = _time.split(':')
+
+    _time = datetime.time(int(hour), int(minutes))
+
     message = ' '.join(splitLine[1:])  # message = 'Loki: Why do you have 2 numbers, Banner?'
 
     if starts_with_author(message):  # True
@@ -85,7 +89,7 @@ def get_data_point(line):
         message = ' '.join(splitMessage[1:])  # message = 'Why do you have 2 numbers, Banner?'
     else:
         author = None
-    return date, time, author, message
+    return date, _time, author, message
 
 
 def parse_file(file_path):
@@ -131,6 +135,7 @@ def dataframe_insight(dataframe):
             'conversation_age': compute_age(dataframe['Date'].min()),
             'average_message_length_per_user': average_message_length_per_user(dataframe),
             'week_days_message_count': messages_by_days_of_the_week(dataframe),
+            'day_hours_message_count': messages_by_hour_of_the_day(dataframe),
             }
 
 
@@ -249,3 +254,14 @@ def messages_by_days_of_the_week(df):
     print("- Message by day of the week: {}".format(time.time()-time1))
     return {'week_days': week_days,
             'week_days_message_count': week_days_message_count}
+
+
+def messages_by_hour_of_the_day(df):
+    time1 = time.time()
+    df = df['Time'].apply(lambda t: t.hour).reset_index().groupby('Time').count()
+    day_hours, day_hours_message_count = [i for i in range(24)], [0]*24
+    for index, row in df.iterrows():
+        day_hours_message_count[index-1] = row[0]
+    print("- Message by hour of the day: {}".format(time.time()-time1))
+    return {'day_hours': day_hours,
+            'day_hours_message_count': day_hours_message_count}

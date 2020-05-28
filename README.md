@@ -12,7 +12,7 @@ A demo is available at http://www.whatsappanalyzer.com
 
 * [Project structure](#project-structure)
 
-* [Get started](#project-structure)
+* [Get started](#get-started)
 
 * [Deployment](#deployment)
 

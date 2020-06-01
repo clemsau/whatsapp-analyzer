@@ -4,7 +4,7 @@
 
 A Whatsapp chat visualizer built with Flask for the web interface and Pandas to handle the data.
 
-A demo is available at http://www.whatsappanalyzer.com 
+A demo is available at http://whatsappanalyzer.com 
 
 ![alt text](static/img/demo.gif "Whatapp Analyzer")
 

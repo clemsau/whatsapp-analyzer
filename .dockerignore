@@ -2,6 +2,7 @@ __pycache__/
 .git/
 .vscode/
 env/
+uploads/
 
 .gitignore
 README.md

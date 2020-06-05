@@ -4,24 +4,23 @@
 
 A Whatsapp chat visualizer built with Flask for the web interface and Pandas to handle the data.
 
-A demo is available at http://whatsappanalyzer.com 
+A demo is available at http://whatsappanalyzer.com
 
 ![alt text](static/img/demo.gif "Whatapp Analyzer")
 
 ## Table of content
 
-* [Project structure](#project-structure)
+- [Project structure](#project-structure)
 
-* [Get started](#get-started)
+- [Get started](#get-started)
 
-* [Deployment](#deployment)
-
+- [Deployment](#deployment)
 
 ## Project structure
 
 ```
     /core
-        /conf 
+        /conf
             __init__.py
             secret_settings_template.py
             secret_settings.py
@@ -64,15 +63,15 @@ Go in the root of the folder run: `python -m venv venv` to create the virtual en
 
 Activate the virtual environment:
 
-* On Linux: `source venv/bin/activate` 
+- On Linux: `source venv/bin/activate`
 
-* On windows `venv/Scripts/activate`
+- On windows `venv/Scripts/activate`
 
 Install the dependencies : `pip install -r requirements.txt`
 
 ### Create your secret_settings.py
 
-In the folder `core/conf` you need to create a secret_settings.py file and follow the secret_settings_template.py 
+In the folder `core/conf` you need to create a secret_settings.py file and follow the secret_settings_template.py
 structure.
 
 To get a SECRET_KEY from python, one of the way to operate it to run the following:
@@ -88,6 +87,20 @@ Make sure your virtual environment is activated with the `(venv)` tag, or whiche
 environment.
 
 In the root of the folder run: `python wsgi.py dev`
+
+### Use Docker
+
+Run the following command from the project root to build your images
+
+```bash
+$ sudo docker-compose --file .docker/docker-compose.yml --project-directory . build --compress --force-rm
+```
+
+After building your images run your container by issuing the following command from the project root
+
+```bash
+$ sudo docker-compose --file .docker/docker-compose.yml --project-directory . up --detach --remove-orphans
+```
 
 ## Deployment
 

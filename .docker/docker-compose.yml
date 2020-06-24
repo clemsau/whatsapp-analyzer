@@ -1,0 +1,20 @@
+version: "3.7"
+
+networks:
+  web:
+    driver: bridge
+    name: whatsapp-analyzer
+
+services:
+  web:
+    container_name: "whatsapp-analyzer"
+    image: "whatsapp-analyzer:latest"
+    networks:
+      - "web"
+    ports:
+      - 5000:5000
+    volumes:
+      - "./logs:/var/log/gunicorn"
+    build:
+      context: "."
+      dockerfile: ".docker/Dockerfile"
